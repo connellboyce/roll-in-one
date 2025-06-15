@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         main = this;
-        maxStrokes = par * 2;
+        maxStrokes = par * 100;
         strokes = 0;
         outOfStrokes = false;
         levelCompleted = false;
@@ -87,7 +88,7 @@ public class LevelManager : MonoBehaviour
             levelCompletedStrokeUI.text = $"Impossible! Finished with {strokes}.";
         }
 
-        if (isLastHole)
+        if (SceneManager.GetActiveScene().name == "Hole 9")
         {
             gameOverUI.SetActive(true);
         }

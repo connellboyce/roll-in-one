@@ -14,6 +14,7 @@ public class GolfBall : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource swingAudio;
     [SerializeField] private AudioSource holeAudio;
+    [SerializeField] private AudioSource splashAudio;
     [SerializeField] private AudioSource impactAudio;
     [SerializeField] private float impactSpeedThreshold = 3f;
 
@@ -56,7 +57,7 @@ public class GolfBall : MonoBehaviour
             HandleGolfInput();
         }
 
-        if (LevelManager.main.outOfStrokes && rigidBody.velocity.magnitude <= 0.01f)
+        if (LevelManager.main.outOfStrokes && rigidBody.velocity.magnitude <= 0.01f && !LevelManager.main.levelCompleted)
         {
             LevelManager.main.LevelComplete();
         }
@@ -188,6 +189,19 @@ public class GolfBall : MonoBehaviour
 
                 StartCoroutine(DelayLevelComplete());
             }
+        } else if (collision.tag == "Water")
+        {
+            splashAudio.Play();
+            LevelManager.main.Stroke();
+            // Reset velocity
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.angularVelocity = 0f;
+
+            // Reset position to the starting point
+            transform.parent.position = new Vector2(-12.25f, -2f);
+
+            // Reset rotation (optional but recommended)
+            transform.rotation = Quaternion.identity;
         }
     }
 
