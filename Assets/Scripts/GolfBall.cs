@@ -35,12 +35,28 @@ public class GolfBall : MonoBehaviour
     private bool isDragging;
     private bool inHole;
     private float walkInput = 0f;
+    private bool isPaused = false;
 
     private PlayerMode currentMode = PlayerMode.Golf;
 
     private void Update()
     {
         if (inHole) return;
+
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     isPaused = !isPaused;
+        //     if (isPaused)
+        //     {
+        //         LevelManager.main.Pause();
+        //     }
+        //     else
+        //     {
+        //         LevelManager.main.UnPause();
+        //     }
+        // }
+        //
+        // if (isPaused) return;
 
         if (currentMode == PlayerMode.Walk)
         {

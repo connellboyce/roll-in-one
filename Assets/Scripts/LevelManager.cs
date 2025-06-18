@@ -14,8 +14,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject levelCompleteUI;
     [SerializeField] private TextMeshProUGUI levelCompletedStrokeUI;
     [SerializeField] private TextMeshProUGUI splashText;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
     [Space(10)]
     [SerializeField] private GameObject gameOverUI;
+    [SerializeField] private GameObject pauseUI;
 
     [Header("Attributes")]
     [SerializeField] private int par;
@@ -28,7 +30,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         main = this;
-        maxStrokes = par * 100;
+        maxStrokes = par * 4;
         strokes = 0;
         outOfStrokes = false;
         levelCompleted = false;
@@ -51,6 +53,7 @@ public class LevelManager : MonoBehaviour
 
     private void UpdateStrokeUI()
     {
+        if (strokeUI == null) return; // Prevent null reference errors if strokeUI is not assigned
         strokeUI.text = $"{strokes}";
     }
 
@@ -61,35 +64,41 @@ public class LevelManager : MonoBehaviour
         splashText.text = GetRandomRolyPolyFact();
         if (outOfStrokes)
         {
-            levelCompletedStrokeUI.text = $"Ran out of strokes! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Ran out of strokes! Finished with {strokes} strokes.";
         } else if (strokes == 1)
         {
             levelCompletedStrokeUI.text = $"Roll in One!";
         } else if (strokes == par)
         {
-            levelCompletedStrokeUI.text = $"Par! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Par! Finished with {strokes} strokes.";
         } else if (strokes == par + 1)
         {
-            levelCompletedStrokeUI.text = $"Bogey! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Bogey! Finished with {strokes} strokes.";
         } else if (strokes == par + 2)
         {
-            levelCompletedStrokeUI.text = $"Double bogey! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Double bogey! Finished with {strokes} strokes.";
         } else if (strokes == par - 1)
         {
-            levelCompletedStrokeUI.text = $"Birdie! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Birdie! Finished with {strokes} strokes.";
         } else if (strokes == par - 2)
         {
-            levelCompletedStrokeUI.text = $"Eagle! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Eagle! Finished with {strokes} strokes.";
         } else if (strokes == par - 3)
         {
-            levelCompletedStrokeUI.text = $"Albatross! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Albatross! Finished with {strokes} strokes.";
         } else if (strokes < par - 3)
         {
-            levelCompletedStrokeUI.text = $"Impossible! Finished with {strokes}.";
+            levelCompletedStrokeUI.text = $"Impossible! Finished with {strokes} strokes.";
+        } else
+        {
+            levelCompletedStrokeUI.text = $"Finished with {strokes} strokes.";
         }
+
+        ScoreManager.Instance.AddScore(strokes);
 
         if (SceneManager.GetActiveScene().name == "Hole 9")
         {
+            finalScoreText.text = $"Final Score: {ScoreManager.Instance.GetScore()} strokes";
             gameOverUI.SetActive(true);
         }
         else
@@ -142,5 +151,16 @@ public class LevelManager : MonoBehaviour
     {
         int index = Random.Range(0, facts.Length);
         return facts[index];
+    }
+
+    public void Pause()
+    {
+        pauseUI.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    public void UnPause()
+    {
+        pauseUI.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
