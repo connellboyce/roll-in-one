@@ -1,5 +1,5 @@
 # Roll in One!
-Entry for [MiniJam #041: Platforms](https://itch.io/jam/micro-jam-041) game jam.
+Entry for [MicroJam #041: Platforms](https://itch.io/jam/micro-jam-041) game jam.
 
 [![Made with Unity](https://img.shields.io/badge/Unity-2022.3.62f1-57b9d3.svg?style=flat&logo=unity)](https://unity3d.com)
 [![C#](https://custom-icon-badges.demolab.com/badge/C%23-7.3-%23239120.svg?logo=cshrp&logoColor=white)](https://dotnet.microsoft.com/en-us/languages/csharp)
